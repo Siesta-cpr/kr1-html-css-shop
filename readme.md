@@ -29,4 +29,4 @@
 ## Текущий статус
 
 Создана базовая структура проекта.
-
+GitHub Pages: https://siesta-cpr.github.io/kr1-html-css-shop/

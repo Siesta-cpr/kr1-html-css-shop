@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Главная страница учебного интернет-магазина.">
   <title>Учебный интернет-магазин</title>
   <link rel="stylesheet" href="css/style.css">
   <script src="js/main.js" defer></script>
@@ -20,6 +21,12 @@
           </li>
           <li class="site-nav__item">
             <a class="site-nav__link" href="catalog.html">Каталог</a>
+          </li>
+          <li class="site-nav__item">
+            <a class="site-nav__link" href="product.html">Товар</a>
+          </li>
+          <li class="site-nav__item">
+            <a class="site-nav__link" href="order.html">Заявка</a>
           </li>
           <li class="site-nav__item">
             <a class="site-nav__link" href="contacts.html">Контакты</a>
@@ -42,7 +49,7 @@
         В дальнейшем на её основе будет разработан многостраничный сайт
         интернет-магазина или каталога услуг.
       </p>
-      <a class="button" href="#popular">Перейти к товарам</a>
+      <a class="button button--primary" href="#popular">Перейти к товарам</a>
     </section>
 
     <section class="section" id="advantages">
@@ -59,11 +66,12 @@
       <h2>Популярные товары</h2>
       <div class="products-grid">
         <article class="product-card product-card--featured">
+          <span class="product-card__badge">Хит</span>
           <h3 class="product-card__title">Товар 1</h3>
           <p class="product-card__description">Краткое описание учебного товара.</p>
           <p class="product-card__price">Цена: 1000 руб.</p>
           <button
-            class="button product-card__button"
+            class="button button--primary product-card__button"
             type="button"
             data-product="Товар 1"
           >
@@ -75,7 +83,7 @@
           <p class="product-card__description">Краткое описание учебного товара.</p>
           <p class="product-card__price">Цена: 1500 руб.</p>
           <button
-            class="button product-card__button"
+            class="button button--primary product-card__button"
             type="button"
             data-product="Товар 2"
           >
@@ -87,7 +95,7 @@
           <p class="product-card__description">Краткое описание учебного товара.</p>
           <p class="product-card__price">Цена: 2000 руб.</p>
           <button
-            class="button product-card__button"
+            class="button button--primary product-card__button"
             type="button"
             data-product="Товар 3"
           >
@@ -217,5 +225,7 @@
   <p class="success-message" id="success-message" hidden>
     Форма успешно отправлена!
   </p>
+
+  <a class="scroll-top" href="#">Наверх</a>
 </body>
 </html>

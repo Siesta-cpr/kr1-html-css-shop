@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Пушистик — вязаные вещи ручной работы</title>
+  <meta name="description" content="Вязаные свитеры, шапки, шарфы и варежки ручной работы. Яркие, мягкие, тёплые.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rubik+Bubbles&family=Rubik:wght@500;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --pink: #ff7eb6;
+      --pink-soft: #ffe1ee;
+      --yellow: #ffd23f;
+      --yellow-soft: #fff4c7;
+      --mint: #3ddbb0;
+      --mint-soft: #d6fbef;
+      --sky: #6ec3ff;
+      --sky-soft: #ddf1ff;
+      --lilac: #b18cff;
+      --lilac-soft: #ece3ff;
+      --orange: #ff9a5a;
+      --orange-soft: #ffe6d6;
+      --ink: #2b2140;
+      --ink-soft: #6b6280;
+      --bg: #fffaf6;
+      --card: #ffffff;
+      --radius: 28px;
+      --shadow: 0 14px 40px -18px rgba(90, 50, 140, .35);
+      --font-bubble: "Rubik Bubbles", "Rubik", system-ui, sans-serif;
+      --font-head: "Rubik", system-ui, sans-serif;
+      --font-body: "Nunito", system-ui, -apple-system, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; scroll-padding-top: 90px; }
+    body {
+      font-family: var(--font-body);
+      color: var(--ink);
+      background: var(--bg);
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    html { overflow-x: clip; }
+    img { max-width: 100%; display: block; }
+    button { font: inherit; cursor: pointer; border: 0; background: none; color: inherit; }
+    a { color: inherit; text-decoration: none; }
+
+    .container { width: min(1240px, 100% - 48px); margin-inline: auto; }
+
+    /* ---------- Летающие пушистые пятна на фоне ---------- */
+    .blobs { position: fixed; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; }
+    .blobs span {
+      position: absolute; border-radius: 50%; filter: blur(60px); opacity: .55;
+      animation: float 18s ease-in-out infinite alternate;
+    }
+    .blobs span:nth-child(1) { width: 420px; height: 420px; background: var(--pink-soft); top: -120px; left: -100px; }
+    .blobs span:nth-child(2) { width: 360px; height: 360px; background: var(--sky-soft); top: 30%; right: -120px; animation-delay: -6s; }
+    .blobs span:nth-child(3) { width: 380px; height: 380px; background: var(--yellow-soft); bottom: -140px; left: 30%; animation-delay: -12s; }
+    @keyframes float { to { transform: translate(40px, 60px) scale(1.1); } }
+
+    /* ---------- Шапка ---------- */
+    .header {
+      position: sticky; top: 0; z-index: 50;
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      background: rgba(255, 250, 246, .75);
+      border-bottom: 1px solid rgba(43, 33, 64, .06);
+    }
+    .header__inner { display: flex; align-items: center; justify-content: space-between; height: 76px; gap: 16px; }
+    .logo { font-family: var(--font-bubble); font-size: 30px; color: var(--pink); letter-spacing: .5px; display: flex; align-items: center; gap: 8px; }
+    .logo span { font-size: 28px; }
+    .nav { display: flex; gap: 6px; }
+    .nav a {
+      font-family: var(--font-head); font-weight: 700; font-size: 16px;
+      padding: 10px 18px; border-radius: 999px; transition: background .2s, transform .2s;
+    }
+    .nav a:hover { background: var(--pink-soft); transform: translateY(-2px); }
+    .cart-btn {
+      position: relative; display: flex; align-items: center; gap: 8px;
+      background: var(--ink); color: #fff; padding: 12px 20px; border-radius: 999px;
+      font-family: var(--font-head); font-weight: 700; transition: transform .2s;
+    }
+    .cart-btn:hover { transform: scale(1.05); }
+    .cart-btn__count {
+      background: var(--yellow); color: var(--ink); min-width: 24px; height: 24px; padding: 0 6px;
+      border-radius: 999px; display: grid; place-items: center; font-size: 13px; font-weight: 800;
+    }
+    .cart-btn__count.bump { animation: bump .4s; }
+    @keyframes bump { 50% { transform: scale(1.5); } }
+
+    /* ---------- Hero ---------- */
+    .hero { padding: 72px 0 64px; }
+    .hero__inner { display: grid; grid-template-columns: 1.1fr .9fr; align-items: center; gap: 48px; }
+    .badge {
+      display: inline-flex; align-items: center; gap: 8px; background: var(--mint-soft); color: #11896a;
+      font-weight: 800; padding: 8px 16px; border-radius: 999px; font-size: 14px; margin-bottom: 22px;
+    }
+    .hero h1 {
+      font-family: var(--font-bubble); font-weight: 400; font-size: clamp(44px, 6.2vw, 84px);
+      line-height: 1.02; margin-bottom: 22px; color: var(--ink);
+    }
+    .hero h1 .c1 { color: var(--pink); }
+    .hero h1 .c2 { color: var(--sky); }
+    .hero h1 .c3 { color: var(--orange); }
+    .hero p { font-size: 20px; color: var(--ink-soft); max-width: 520px; margin-bottom: 34px; }
+    .hero__actions { display: flex; gap: 14px; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      font-family: var(--font-head); font-weight: 800; font-size: 18px;
+      padding: 18px 32px; border-radius: 999px; transition: transform .2s, box-shadow .2s;
+    }
+    .btn--primary { background: var(--pink); color: #fff; box-shadow: 0 10px 0 -2px #e05a95; }
+    .btn--primary:hover { transform: translateY(-3px); box-shadow: 0 13px 0 -2px #e05a95; }
+    .btn--primary:active { transform: translateY(4px); box-shadow: 0 4px 0 -2px #e05a95; }
+    .btn--ghost { background: #fff; box-shadow: inset 0 0 0 3px var(--ink); }
+    .btn--ghost:hover { transform: translateY(-3px); }
+    .hero__stats { display: flex; gap: 36px; margin-top: 44px; flex-wrap: wrap; }
+    .hero__stats b { font-family: var(--font-head); font-size: 34px; font-weight: 800; display: block; line-height: 1; }
+    .hero__stats small { color: var(--ink-soft); font-weight: 700; }
+
+    .hero__art { position: relative; aspect-ratio: 1; max-width: 480px; justify-self: center; width: 100%; }
+    .hero__circle {
+      position: absolute; inset: 6%; border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, var(--yellow) 0 30%, var(--orange) 75%);
+      display: grid; place-items: center; font-size: clamp(120px, 16vw, 200px);
+      box-shadow: var(--shadow); animation: wobble 6s ease-in-out infinite;
+    }
+    @keyframes wobble { 50% { transform: rotate(-6deg) scale(1.03); border-radius: 46% 54% 50% 50%; } }
+    .hero__sticker {
+      position: absolute; background: #fff; border-radius: 22px; padding: 12px 18px; box-shadow: var(--shadow);
+      font-weight: 800; display: flex; align-items: center; gap: 10px; animation: bob 4s ease-in-out infinite;
+    }
+    .hero__sticker em { font-style: normal; font-size: 28px; }
+    .hero__sticker--1 { top: 6%; left: -4%; }
+    .hero__sticker--2 { bottom: 12%; right: -6%; animation-delay: -2s; }
+    .hero__sticker--3 { bottom: -2%; left: 10%; animation-delay: -1s; }
+    @keyframes bob { 50% { transform: translateY(-12px); } }
+
+    /* ---------- Бегущая строка ---------- */
+    .marquee-wrap { overflow: hidden; padding: 20px 0; }
+    .marquee { background: var(--ink); color: #fff; padding: 16px 0; overflow: hidden; transform: rotate(-1.5deg); margin: 0 -20px; }
+    .marquee__track { display: flex; gap: 40px; width: max-content; animation: marquee 30s linear infinite; font-family: var(--font-head); font-weight: 800; font-size: 22px; }
+    .marquee__track span { white-space: nowrap; }
+    @keyframes marquee { to { transform: translateX(-50%); } }
+
+    /* ---------- Секции ---------- */
+    .section { padding: 96px 0; }
+    .section__head { text-align: center; margin-bottom: 44px; }
+    .section__title { font-family: var(--font-bubble); font-weight: 400; font-size: clamp(36px, 4.6vw, 60px); line-height: 1.05; margin-bottom: 12px; }
+    .section__sub { color: var(--ink-soft); font-size: 18px; }
+
+    /* ---------- Фильтры ---------- */
+    .filters { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-bottom: 40px; }
+    .chip {
+      font-family: var(--font-head); font-weight: 700; font-size: 16px; padding: 12px 22px; border-radius: 999px;
+      background: #fff; box-shadow: inset 0 0 0 2px rgba(43, 33, 64, .1); transition: all .2s;
+    }
+    .chip:hover { transform: translateY(-2px); }
+    .chip.is-active { background: var(--ink); color: #fff; box-shadow: none; }
+
+    /* ---------- Каталог ---------- */
+    .catalog { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+    .card {
+      background: var(--card); border-radius: var(--radius); padding: 14px; box-shadow: var(--shadow);
+      display: flex; flex-direction: column; transition: transform .25s, box-shadow .25s;
+      animation: pop .4s both;
+    }
+    @keyframes pop { from { opacity: 0; transform: translateY(20px) scale(.97); } }
+    .card:hover { transform: translateY(-8px) rotate(-.6deg); }
+    .card__img {
+      position: relative; aspect-ratio: 1; border-radius: 22px; display: grid; place-items: center;
+      font-size: 96px; overflow: hidden; cursor: pointer;
+    }
+    .card__img::after {
+      content: ""; position: absolute; inset: 0; opacity: .35;
+      background-image: radial-gradient(circle, rgba(255,255,255,.9) 2px, transparent 2.5px);
+      background-size: 18px 18px;
+    }
+    .card__img span { position: relative; z-index: 1; transition: transform .3s; }
+    .card:hover .card__img span { transform: scale(1.12) rotate(6deg); }
+    .card__tag {
+      position: absolute; top: 12px; left: 12px; z-index: 2; background: #fff; font-size: 12px; font-weight: 800;
+      padding: 5px 12px; border-radius: 999px;
+    }
+    .card__body { padding: 16px 8px 6px; display: flex; flex-direction: column; flex: 1; }
+    .card__title { font-family: var(--font-head); font-weight: 800; font-size: 19px; line-height: 1.2; margin-bottom: 6px; }
+    .card__desc { color: var(--ink-soft); font-size: 14px; margin-bottom: 14px; flex: 1; }
+    .card__colors { display: flex; gap: 6px; margin-bottom: 14px; }
+    .card__colors i { width: 18px; height: 18px; border-radius: 50%; box-shadow: inset 0 0 0 2px rgba(0,0,0,.08); }
+    .card__foot { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    .card__price { font-family: var(--font-head); font-weight: 800; font-size: 22px; }
+    .add-btn {
+      background: var(--ink); color: #fff; width: 48px; height: 48px; border-radius: 50%; font-size: 24px;
+      display: grid; place-items: center; transition: transform .2s, background .2s;
+    }
+    .add-btn:hover { transform: rotate(90deg) scale(1.08); background: var(--pink); }
+    .add-btn.is-added { background: var(--mint); transform: none; }
+
+    /* ---------- Как мы вяжем ---------- */
+    .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .step { border-radius: var(--radius); padding: 34px 28px; }
+    .step:nth-child(1) { background: var(--pink-soft); }
+    .step:nth-child(2) { background: var(--sky-soft); }
+    .step:nth-child(3) { background: var(--mint-soft); }
+    .step__icon { font-size: 48px; margin-bottom: 14px; }
+    .step h3 { font-family: var(--font-head); font-weight: 800; font-size: 22px; margin-bottom: 8px; }
+    .step p { color: var(--ink-soft); }
+
+    /* ---------- Заказ ---------- */
+    .order { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: start; }
+    .panel { background: #fff; border-radius: var(--radius); padding: 32px; box-shadow: var(--shadow); }
+    .panel h3 { font-family: var(--font-head); font-weight: 800; font-size: 24px; margin-bottom: 20px; }
+    .summary__empty { text-align: center; padding: 30px 0; color: var(--ink-soft); }
+    .summary__empty div { font-size: 56px; margin-bottom: 8px; }
+    .line { display: flex; align-items: center; gap: 14px; padding: 12px 0; border-bottom: 2px dashed rgba(43,33,64,.08); }
+    .line__img { width: 56px; height: 56px; border-radius: 16px; display: grid; place-items: center; font-size: 30px; flex-shrink: 0; }
+    .line__info { flex: 1; min-width: 0; }
+    .line__info b { display: block; font-size: 15px; line-height: 1.25; }
+    .line__info small { color: var(--ink-soft); font-weight: 700; }
+    .qty { display: flex; align-items: center; gap: 6px; background: var(--bg); border-radius: 999px; padding: 4px; }
+    .qty button { width: 30px; height: 30px; border-radius: 50%; background: #fff; font-weight: 800; font-size: 16px; }
+    .qty button:hover { background: var(--pink-soft); }
+    .qty span { min-width: 18px; text-align: center; font-weight: 800; }
+    .summary__total { display: flex; justify-content: space-between; align-items: baseline; margin-top: 18px; font-family: var(--font-head); }
+    .summary__total span { font-weight: 700; color: var(--ink-soft); }
+    .summary__total b { font-size: 30px; font-weight: 800; }
+    .summary__note { margin-top: 10px; font-size: 14px; color: #11896a; font-weight: 700; }
+
+    .form { display: grid; gap: 14px; }
+    .form__row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .field label { display: block; font-weight: 800; font-size: 14px; margin-bottom: 6px; }
+    .field input, .field select, .field textarea {
+      width: 100%; font: inherit; font-size: 16px; padding: 14px 18px; border-radius: 18px;
+      border: 2px solid transparent; background: var(--bg); color: var(--ink); transition: border .2s, background .2s;
+    }
+    .field textarea { resize: vertical; min-height: 90px; }
+    .field input:focus, .field select:focus, .field textarea:focus { outline: none; border-color: var(--pink); background: #fff; }
+    .delivery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .delivery > div { position: relative; }
+    .delivery input { position: absolute; inset: 0; opacity: 0; width: 100%; height: 100%; pointer-events: none; }
+    .delivery label {
+      display: block; text-align: center; padding: 14px 8px; border-radius: 18px; background: var(--bg);
+      font-weight: 800; font-size: 14px; cursor: pointer; border: 2px solid transparent; transition: all .2s;
+    }
+    .delivery label em { display: block; font-style: normal; font-size: 24px; }
+    .delivery input:checked + label { border-color: var(--pink); background: var(--pink-soft); }
+    .delivery input:focus-visible + label { outline: 3px solid var(--sky); }
+    .form .btn { width: 100%; margin-top: 6px; }
+    .form__error { color: #e0375a; font-weight: 700; font-size: 14px; min-height: 20px; }
+
+    /* ---------- Отзывы ---------- */
+    .reviews { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .review { background: #fff; border-radius: var(--radius); padding: 28px; box-shadow: var(--shadow); position: relative; }
+    .review:nth-child(3n+1) { transform: rotate(-1deg); }
+    .review:nth-child(3n+2) { transform: rotate(1deg); }
+    .review__stars { color: var(--yellow); font-size: 20px; letter-spacing: 2px; margin-bottom: 12px; }
+    .review p { margin-bottom: 20px; }
+    .review__author { display: flex; align-items: center; gap: 12px; }
+    .review__avatar { width: 48px; height: 48px; border-radius: 50%; display: grid; place-items: center; font-size: 24px; }
+    .review__author b { display: block; }
+    .review__author small { color: var(--ink-soft); font-weight: 700; }
+
+    /* ---------- Подвал ---------- */
+    .footer { background: var(--ink); color: #fff; padding: 56px 0 36px; margin-top: 40px; border-radius: 48px 48px 0 0; }
+    .footer__inner { display: flex; justify-content: space-between; gap: 32px; flex-wrap: wrap; align-items: center; }
+    .footer .logo { color: var(--yellow); }
+    .footer p { color: rgba(255,255,255,.65); margin-top: 8px; }
+    .socials { display: flex; gap: 12px; }
+    .socials a {
+      width: 52px; height: 52px; border-radius: 50%; background: rgba(255,255,255,.1);
+      display: grid; place-items: center; font-size: 22px; transition: background .2s, transform .2s;
+    }
+    .socials a:hover { background: var(--pink); transform: translateY(-3px); }
+    .footer__copy { margin-top: 36px; color: rgba(255,255,255,.4); font-size: 14px; }
+
+    /* ---------- Модалка товара ---------- */
+    .modal {
+      position: fixed; inset: 0; z-index: 100; background: rgba(43,33,64,.45); backdrop-filter: blur(6px);
+      display: none; align-items: center; justify-content: center; padding: 20px;
+    }
+    .modal.is-open { display: flex; animation: fade .2s; }
+    @keyframes fade { from { opacity: 0; } }
+    .modal__box {
+      background: #fff; border-radius: 36px; width: min(820px, 100%); max-height: 92vh; overflow: auto;
+      display: grid; grid-template-columns: 1fr 1fr; position: relative; animation: pop .3s;
+    }
+    .modal__img { display: grid; place-items: center; font-size: 160px; min-height: 340px; }
+    .modal__content { padding: 36px 32px; }
+    .modal__content h3 { font-family: var(--font-head); font-weight: 800; font-size: 28px; line-height: 1.15; margin-bottom: 10px; }
+    .modal__content p { color: var(--ink-soft); margin-bottom: 18px; }
+    .modal__content ul { list-style: none; margin-bottom: 20px; display: grid; gap: 6px; font-weight: 700; }
+    .sizes { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px; }
+    .sizes button { padding: 10px 16px; border-radius: 14px; background: var(--bg); font-weight: 800; border: 2px solid transparent; }
+    .sizes button.is-active { border-color: var(--pink); background: var(--pink-soft); }
+    .modal__close {
+      position: absolute; top: 14px; right: 14px; width: 44px; height: 44px; border-radius: 50%; background: #fff;
+      font-size: 22px; box-shadow: var(--shadow); z-index: 2;
+    }
+
+    /* ---------- Тост ---------- */
+    .toast {
+      position: fixed; left: 50%; bottom: 28px; transform: translate(-50%, 140%); z-index: 120;
+      background: var(--ink); color: #fff; padding: 16px 26px; border-radius: 999px; font-weight: 800;
+      box-shadow: var(--shadow); transition: transform .35s cubic-bezier(.2,1.4,.4,1); white-space: nowrap;
+    }
+    .toast.is-show { transform: translate(-50%, 0); }
+
+    /* ---------- Успех ---------- */
+    .success { text-align: center; padding: 20px 0; }
+    .success div { font-size: 80px; animation: bob 2s ease-in-out infinite; }
+    .success h3 { font-family: var(--font-bubble); font-weight: 400; font-size: 36px; color: var(--pink); margin: 10px 0; }
+
+    /* ---------- Мобильная кнопка меню ---------- */
+    .burger { display: none; width: 48px; height: 48px; border-radius: 50%; background: var(--pink-soft); font-size: 22px; }
+
+    /* =========== Адаптив =========== */
+    /* MacBook 14" (≈1512px) — основная раскладка выше. Ноутбуки поменьше: */
+    @media (max-width: 1100px) {
+      .catalog { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 900px) {
+      .hero__inner { grid-template-columns: 1fr; text-align: center; }
+      .hero p { margin-inline: auto; }
+      .hero__actions, .hero__stats { justify-content: center; }
+      .hero__art { max-width: 360px; order: -1; }
+      .catalog { grid-template-columns: repeat(2, 1fr); }
+      .steps, .reviews { grid-template-columns: 1fr; }
+      .review:nth-child(n) { transform: none; }
+      .order { grid-template-columns: 1fr; }
+      .modal__box { grid-template-columns: 1fr; }
+      .modal__img { min-height: 220px; font-size: 120px; }
+    }
+    @media (max-width: 760px) {
+      .burger { display: grid; place-items: center; }
+      .nav {
+        position: absolute; top: 76px; left: 12px; right: 12px; flex-direction: column; background: #fff;
+        border-radius: 24px; padding: 12px; box-shadow: var(--shadow); display: none;
+      }
+      .nav.is-open { display: flex; }
+      .nav a { padding: 14px 18px; font-size: 18px; }
+      .cart-btn__label { display: none; }
+    }
+    @media (max-width: 560px) {
+      .container { width: calc(100% - 32px); }
+      .header__inner { height: 68px; }
+      .nav { top: 68px; }
+      .logo { font-size: 24px; }
+      .hero { padding: 24px 0 40px; }
+      .hero__inner { gap: 24px; }
+      .hero__art { max-width: 230px; }
+      .hero__circle { font-size: 100px; }
+      .hero p { font-size: 17px; }
+      .btn { width: 100%; padding: 16px 24px; }
+      .hero__stats { gap: 22px; }
+      .hero__stats b { font-size: 26px; }
+      .hero__sticker { font-size: 13px; padding: 8px 12px; }
+      .hero__sticker em { font-size: 20px; }
+      .hero__sticker--1 { left: 0; }
+      .hero__sticker--2 { right: 0; }
+      .section { padding: 64px 0; }
+      .filters { flex-wrap: nowrap; overflow-x: auto; justify-content: flex-start; padding-bottom: 6px; margin-inline: -16px; padding-inline: 16px; scrollbar-width: none; }
+      .filters::-webkit-scrollbar { display: none; }
+      .chip { flex-shrink: 0; }
+      .catalog { gap: 12px; }
+      .card { padding: 8px; border-radius: 22px; }
+      .card__img { font-size: 64px; border-radius: 16px; }
+      .card__body { padding: 10px 4px 4px; }
+      .card__title { font-size: 15px; }
+      .card__desc { display: none; }
+      .card__colors i { width: 14px; height: 14px; }
+      .card__price { font-size: 17px; }
+      .add-btn { width: 40px; height: 40px; font-size: 20px; }
+      .panel { padding: 22px; }
+      .form__row { grid-template-columns: 1fr; }
+      .marquee__track { font-size: 17px; }
+      .modal { padding: 0; align-items: flex-end; }
+      .modal__box { border-radius: 32px 32px 0 0; max-height: 90vh; }
+      .modal__content { padding: 24px 20px 28px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+      html { scroll-behavior: auto; }
+    }
+  </style>
+</head>
+<body>
+  <div class="blobs" aria-hidden="true"><span></span><span></span><span></span></div>
+
+  <!-- Шапка -->
+  <header class="header">
+    <div class="container header__inner">
+      <a href="#top" class="logo"><span>🧶</span>Пушистик</a>
+      <nav class="nav" id="nav">
+        <a href="#catalog">Каталог</a>
+        <a href="#how">Как мы вяжем</a>
+        <a href="#order">Заказ</a>
+        <a href="#reviews">Отзывы</a>
+      </nav>
+      <div style="display:flex;gap:10px;align-items:center">
+        <a href="#order" class="cart-btn" aria-label="Корзина">
+          🛍️ <span class="cart-btn__label">Корзина</span>
+          <span class="cart-btn__count" id="cartCount">0</span>
+        </a>
+        <button class="burger" id="burger" aria-label="Меню">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- Hero -->
+    <section class="hero">
+      <div class="container hero__inner">
+        <div>
+          <div class="badge">✨ Связано вручную с любовью</div>
+          <h1><span class="c1">Мягкие</span> вещи<br>для <span class="c2">ярких</span><br><span class="c3">людей</span></h1>
+          <p>Свитеры, шапки, шарфы и варежки, которые вяжут руками в маленькой мастерской. Каждая вещь — одна такая на свете.</p>
+          <div class="hero__actions">
+            <a href="#catalog" class="btn btn--primary">Смотреть каталог →</a>
+            <a href="#reviews" class="btn btn--ghost">Отзывы ♡</a>
+          </div>
+          <div class="hero__stats">
+            <div><b>1 200+</b><small>счастливых клиентов</small></div>
+            <div><b>100%</b><small>натуральная пряжа</small></div>
+            <div><b>7 дней</b><small>на изготовление</small></div>
+          </div>
+        </div>
+        <div class="hero__art" aria-hidden="true">
+          <div class="hero__circle">🧶</div>
+          <div class="hero__sticker hero__sticker--1"><em>🧣</em>Тёплые</div>
+          <div class="hero__sticker hero__sticker--2"><em>🌈</em>Яркие</div>
+          <div class="hero__sticker hero__sticker--3"><em>☁️</em>Лёгкие</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="marquee-wrap" aria-hidden="true"><div class="marquee">
+      <div class="marquee__track" id="marquee"></div>
+    </div></div>
+
+    <!-- Каталог -->
+    <section class="section" id="catalog">
+      <div class="container">
+        <div class="section__head">
+          <h2 class="section__title">Наш каталог</h2>
+          <p class="section__sub">Нажми на вещь, чтобы рассмотреть поближе и выбрать размер</p>
+        </div>
+        <div class="filters" id="filters"></div>
+        <div class="catalog" id="catalogGrid"></div>
+      </div>
+    </section>
+
+    <!-- Как мы вяжем -->
+    <section class="section" id="how" style="padding-top:0">
+      <div class="container">
+        <div class="section__head">
+          <h2 class="section__title">Как мы вяжем</h2>
+          <p class="section__sub">Медленно, бережно и только из хорошей пряжи</p>
+        </div>
+        <div class="steps">
+          <div class="step"><div class="step__icon">🐑</div><h3>Выбираем пряжу</h3><p>Мериносовая шерсть, альпака и хлопок — мягкие, не колются и не скатываются.</p></div>
+          <div class="step"><div class="step__icon">🪡</div><h3>Вяжем руками</h3><p>Каждую вещь вяжет одна мастерица от первой до последней петли.</p></div>
+          <div class="step"><div class="step__icon">🎁</div><h3>Упаковываем</h3><p>В крафт-коробку с открыткой и травяным саше. Готово к подарку!</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Заказ -->
+    <section class="section" id="order" style="padding-top:0">
+      <div class="container">
+        <div class="section__head">
+          <h2 class="section__title">Оформить заказ</h2>
+          <p class="section__sub">Пара шагов — и мы начнём вязать для тебя</p>
+        </div>
+        <div class="order">
+          <div class="panel">
+            <h3>🛍️ Твоя корзина</h3>
+            <div id="summary"></div>
+          </div>
+          <div class="panel" id="formPanel">
+            <h3>📝 Данные для доставки</h3>
+            <form class="form" id="orderForm" novalidate>
+              <div class="form__row">
+                <div class="field"><label for="name">Имя</label><input id="name" name="name" placeholder="Как тебя зовут?" autocomplete="name"></div>
+                <div class="field"><label for="phone">Телефон</label><input id="phone" name="phone" type="tel" placeholder="+7 (___) ___-__-__" autocomplete="tel"></div>
+              </div>
+              <div class="field">
+                <label>Доставка</label>
+                <div class="delivery">
+                  <div><input type="radio" name="delivery" id="d1" value="Курьер" checked><label for="d1"><em>🛵</em>Курьер</label></div>
+                  <div><input type="radio" name="delivery" id="d2" value="Пункт выдачи"><label for="d2"><em>📦</em>Пункт выдачи</label></div>
+                  <div><input type="radio" name="delivery" id="d3" value="Почта"><label for="d3"><em>✉️</em>Почта</label></div>
+                </div>
+              </div>
+              <div class="field"><label for="address">Адрес</label><input id="address" name="address" placeholder="Город, улица, дом, квартира" autocomplete="street-address"></div>
+              <div class="field"><label for="comment">Пожелания</label><textarea id="comment" name="comment" placeholder="Например: хочу шапку в мятном цвете"></textarea></div>
+              <div class="form__error" id="formError"></div>
+              <button type="submit" class="btn btn--primary">Отправить заказ 💌</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Отзывы -->
+    <section class="section" id="reviews" style="padding-top:0">
+      <div class="container">
+        <div class="section__head">
+          <h2 class="section__title">Что говорят покупатели</h2>
+          <p class="section__sub">Средняя оценка 4.9 из 5 ⭐</p>
+        </div>
+        <div class="reviews" id="reviewsGrid"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__inner">
+        <div>
+          <a href="#top" class="logo"><span>🧶</span>Пушистик</a>
+          <p>Вязаные вещи ручной работы · Доставка по всей России</p>
+        </div>
+        <div class="socials">
+          <a href="#" aria-label="Telegram">✈️</a>
+          <a href="#" aria-label="VK">💬</a>
+          <a href="#" aria-label="Почта">📧</a>
+        </div>
+      </div>
+      <div class="footer__copy">© 2026 Пушистик. Связано с любовью.</div>
+    </div>
+  </footer>
+
+  <!-- Модалка товара -->
+  <div class="modal" id="modal" role="dialog" aria-modal="true">
+    <div class="modal__box">
+      <button class="modal__close" id="modalClose" aria-label="Закрыть">✕</button>
+      <div class="modal__img" id="modalImg"></div>
+      <div class="modal__content" id="modalContent"></div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    // ---------- Данные ----------
+    const COLORS = {
+      pink: "#ff7eb6", yellow: "#ffd23f", mint: "#3ddbb0", sky: "#6ec3ff",
+      lilac: "#b18cff", orange: "#ff9a5a", cream: "#fff1dc", red: "#ff5a6e"
+    };
+    const BG = ["#ffe1ee", "#ddf1ff", "#fff4c7", "#d6fbef", "#ece3ff", "#ffe6d6"];
+
+    const CATEGORIES = [
+      { id: "all", label: "Все 🌈" },
+      { id: "sweater", label: "Свитеры 🧥" },
+      { id: "hat", label: "Шапки 🧢" },
+      { id: "scarf", label: "Шарфы 🧣" },
+      { id: "mittens", label: "Варежки 🧤" },
+      { id: "kids", label: "Детское 🧸" },
+      { id: "home", label: "Для дома 🏡" }
+    ];
+
+    const PRODUCTS = [
+      { id: 1, cat: "sweater", emoji: "🧥", title: "Свитер «Облачко»", desc: "Объёмный оверсайз из альпаки", price: 7900, tag: "Хит", colors: ["cream", "pink", "sky"], yarn: "Альпака 70%, меринос 30%" },
+      { id: 2, cat: "hat", emoji: "🧢", title: "Шапка «Помпон»", desc: "С огромным пушистым помпоном", price: 2400, tag: "New", colors: ["yellow", "pink", "mint"], yarn: "Меринос 100%" },
+      { id: 3, cat: "scarf", emoji: "🧣", title: "Шарф «Радуга»", desc: "Длинный, полосатый и очень тёплый", price: 3200, colors: ["orange", "lilac", "mint"], yarn: "Меринос 80%, кашемир 20%" },
+      { id: 4, cat: "mittens", emoji: "🧤", title: "Варежки «Снежок»", desc: "С норвежским узором", price: 1800, colors: ["red", "cream", "sky"], yarn: "Шерсть 100%" },
+      { id: 5, cat: "sweater", emoji: "👚", title: "Кардиган «Ромашка»", desc: "С вышитыми цветочками", price: 6500, tag: "Хит", colors: ["mint", "cream", "yellow"], yarn: "Хлопок 60%, меринос 40%" },
+      { id: 6, cat: "kids", emoji: "🧸", title: "Комбинезон «Мишутка»", desc: "Для малышей 0–2 лет, с ушками", price: 4200, colors: ["orange", "cream"], yarn: "Детский меринос 100%" },
+      { id: 7, cat: "home", emoji: "🧦", title: "Носки «Уют»", desc: "Толстые домашние носки", price: 1200, colors: ["pink", "lilac", "sky"], yarn: "Шерсть 70%, полиамид 30%" },
+      { id: 8, cat: "hat", emoji: "👒", title: "Панама «Лето»", desc: "Ажурная, из лёгкого хлопка", price: 2100, tag: "New", colors: ["yellow", "sky", "pink"], yarn: "Хлопок 100%" },
+      { id: 9, cat: "home", emoji: "🛋️", title: "Плед «Зефир»", desc: "Крупная вязка, 130×170 см", price: 9800, colors: ["pink", "cream", "lilac"], yarn: "Шенилл 100%" },
+      { id: 10, cat: "scarf", emoji: "🎀", title: "Снуд «Бантик»", desc: "Надевается в два оборота", price: 2700, colors: ["lilac", "pink"], yarn: "Альпака 50%, меринос 50%" },
+      { id: 11, cat: "kids", emoji: "🐣", title: "Шапочка «Цыплёнок»", desc: "С клювиком и ушками-завязками", price: 1600, tag: "Мило", colors: ["yellow", "orange"], yarn: "Детский хлопок 100%" },
+      { id: 12, cat: "sweater", emoji: "🌈", title: "Джемпер «Леденец»", desc: "Цветные полоски, свободный крой", price: 7200, colors: ["red", "yellow", "sky", "mint"], yarn: "Меринос 100%" }
+    ];
+
+    const REVIEWS = [
+      { name: "Аня", city: "Москва", emoji: "🌸", text: "Свитер «Облачко» — самая мягкая вещь в моём шкафу! Совсем не колется, ношу почти каждый день.", stars: 5 },
+      { name: "Марина", city: "Казань", emoji: "🍓", text: "Заказала шапку с помпоном дочке и себе — теперь гуляем в одинаковых. Упаковка просто чудо 💕", stars: 5 },
+      { name: "Дима", city: "Санкт-Петербург", emoji: "🐻", text: "Купил шарф девушке в подарок. Она в восторге, а я — от того, как быстро всё доставили.", stars: 5 },
+      { name: "Оля", city: "Екатеринбург", emoji: "🌻", text: "Плед «Зефир» огромный и уютный. Кот тоже оценил 😹 Хочу ещё такой же в лиловом!", stars: 5 },
+      { name: "Катя", city: "Новосибирск", emoji: "🦋", text: "Попросила связать кардиган в своём цвете — без проблем! Всё учли, прислали фото процесса.", stars: 5 },
+      { name: "Лена", city: "Сочи", emoji: "🍋", text: "Панама «Лето» — лучшая покупка сезона. Лёгкая, дышит, и все спрашивают, где взяла.", stars: 4 }
+    ];
+
+    // ---------- Состояние ----------
+    let cart = {};
+    try { cart = JSON.parse(localStorage.getItem("knit-cart")) || {}; } catch (e) {}
+    let activeCat = "all";
+
+    const $ = (s) => document.querySelector(s);
+    const rub = (n) => n.toLocaleString("ru-RU") + " ₽";
+    const bgOf = (p) => BG[(p.id - 1) % BG.length];
+
+    function saveCart() { try { localStorage.setItem("knit-cart", JSON.stringify(cart)); } catch (e) {} }
+
+    // ---------- Бегущая строка ----------
+    const words = ["🧶 Ручная работа", "☁️ Мягкая пряжа", "🌈 Яркие цвета", "🎁 Подарочная упаковка", "🚚 Доставка по России", "💛 Вяжем на заказ"];
+    $("#marquee").innerHTML = [...words, ...words, ...words, ...words].map(w => `<span>${w}</span>`).join("");
+
+    // ---------- Фильтры ----------
+    function renderFilters() {
+      $("#filters").innerHTML = CATEGORIES.map(c =>
+        `<button class="chip ${c.id === activeCat ? "is-active" : ""}" data-cat="${c.id}">${c.label}</button>`
+      ).join("");
+    }
+    $("#filters").addEventListener("click", (e) => {
+      const b = e.target.closest(".chip"); if (!b) return;
+      activeCat = b.dataset.cat; renderFilters(); renderCatalog();
+    });
+
+    // ---------- Каталог ----------
+    function renderCatalog() {
+      const list = PRODUCTS.filter(p => activeCat === "all" || p.cat === activeCat);
+      $("#catalogGrid").innerHTML = list.map((p, i) => `
+        <article class="card" style="animation-delay:${i * 40}ms">
+          <div class="card__img" style="background:${bgOf(p)}" data-open="${p.id}">
+            ${p.tag ? `<span class="card__tag">${p.tag}</span>` : ""}
+            <span>${p.emoji}</span>
+          </div>
+          <div class="card__body">
+            <h3 class="card__title">${p.title}</h3>
+            <p class="card__desc">${p.desc}</p>
+            <div class="card__colors">${p.colors.map(c => `<i style="background:${COLORS[c]}"></i>`).join("")}</div>
+            <div class="card__foot">
+              <span class="card__price">${rub(p.price)}</span>
+              <button class="add-btn ${cart[p.id] ? "is-added" : ""}" data-add="${p.id}" aria-label="В корзину">${cart[p.id] ? "✓" : "+"}</button>
+            </div>
+          </div>
+        </article>`).join("");
+    }
+    $("#catalogGrid").addEventListener("click", (e) => {
+      const add = e.target.closest("[data-add]");
+      if (add) { addToCart(+add.dataset.add); return; }
+      const open = e.target.closest("[data-open]");
+      if (open) openModal(+open.dataset.open);
+    });
+
+    // ---------- Корзина ----------
+    function addToCart(id, size) {
+      cart[id] = (cart[id] || 0) + 1;
+      saveCart(); renderAll();
+      const p = PRODUCTS.find(x => x.id === id);
+      toast(`${p.emoji} «${p.title.replace(/.*«|».*/g, "")}» в корзине!`);
+      const c = $("#cartCount"); c.classList.remove("bump"); void c.offsetWidth; c.classList.add("bump");
+    }
+    function changeQty(id, d) {
+      cart[id] = (cart[id] || 0) + d;
+      if (cart[id] <= 0) delete cart[id];
+      saveCart(); renderAll();
+    }
+    function renderSummary() {
+      const ids = Object.keys(cart);
+      const count = ids.reduce((s, id) => s + cart[id], 0);
+      $("#cartCount").textContent = count;
+      if (!ids.length) {
+        $("#summary").innerHTML = `<div class="summary__empty"><div>🧺</div>Корзина пока пустая.<br><a href="#catalog" style="color:var(--pink);font-weight:800">Выбрать что-нибудь тёплое →</a></div>`;
+        return;
+      }
+      let total = 0;
+      const lines = ids.map(id => {
+        const p = PRODUCTS.find(x => x.id === +id);
+        total += p.price * cart[id];
+        return `<div class="line">
+          <div class="line__img" style="background:${bgOf(p)}">${p.emoji}</div>
+          <div class="line__info"><b>${p.title}</b><small>${rub(p.price)}</small></div>
+          <div class="qty"><button data-q="${id}" data-d="-1" aria-label="Меньше">−</button><span>${cart[id]}</span><button data-q="${id}" data-d="1" aria-label="Больше">+</button></div>
+        </div>`;
+      }).join("");
+      const free = total >= 5000;
+      $("#summary").innerHTML = lines + `
+        <div class="summary__total"><span>Итого</span><b>${rub(total)}</b></div>
+        <div class="summary__note">${free ? "🎉 Доставка бесплатно!" : `Ещё ${rub(5000 - total)} до бесплатной доставки`}</div>`;
+    }
+    $("#summary").addEventListener("click", (e) => {
+      const b = e.target.closest("[data-q]"); if (b) changeQty(+b.dataset.q, +b.dataset.d);
+    });
+
+    // ---------- Модалка ----------
+    function openModal(id) {
+      const p = PRODUCTS.find(x => x.id === id);
+      const sizes = p.cat === "kids" ? ["0–6 мес", "6–12 мес", "1–2 года"] : ["home", "scarf"].includes(p.cat) ? ["Один размер"] : ["XS", "S", "M", "L", "XL"];
+      $("#modalImg").style.background = bgOf(p);
+      $("#modalImg").textContent = p.emoji;
+      $("#modalContent").innerHTML = `
+        <h3>${p.title}</h3>
+        <p>${p.desc}. Связано вручную, поэтому каждая вещь немного уникальна.</p>
+        <ul><li>🧶 ${p.yarn}</li><li>⏳ Изготовление 5–7 дней</li><li>🧼 Деликатная стирка при 30°</li></ul>
+        <div class="sizes">${sizes.map((s, i) => `<button class="${i === Math.min(2, sizes.length - 1) ? "is-active" : ""}">${s}</button>`).join("")}</div>
+        <div class="card__foot" style="gap:16px">
+          <span class="card__price" style="font-size:30px">${rub(p.price)}</span>
+          <button class="btn btn--primary" id="modalAdd" style="flex:1">В корзину</button>
+        </div>`;
+      $("#modalContent .sizes").addEventListener("click", (e) => {
+        if (e.target.tagName !== "BUTTON") return;
+        e.currentTarget.querySelectorAll("button").forEach(b => b.classList.remove("is-active"));
+        e.target.classList.add("is-active");
+      });
+      $("#modalAdd").onclick = () => { addToCart(p.id); closeModal(); };
+      $("#modal").classList.add("is-open");
+      document.body.style.overflow = "hidden";
+    }
+    function closeModal() { $("#modal").classList.remove("is-open"); document.body.style.overflow = ""; }
+    $("#modalClose").onclick = closeModal;
+    $("#modal").addEventListener("click", (e) => { if (e.target.id === "modal") closeModal(); });
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeModal(); });
+
+    // ---------- Форма ----------
+    $("#orderForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const f = e.target;
+      const err = $("#formError");
+      if (!Object.keys(cart).length) { err.textContent = "Добавь хотя бы одну вещь в корзину 🧺"; return; }
+      if (f.name.value.trim().length < 2) { err.textContent = "Напиши, пожалуйста, своё имя"; f.name.focus(); return; }
+      if (f.phone.value.replace(/\D/g, "").length < 10) { err.textContent = "Проверь номер телефона"; f.phone.focus(); return; }
+      if (f.address.value.trim().length < 5) { err.textContent = "Укажи адрес доставки"; f.address.focus(); return; }
+      err.textContent = "";
+      const name = f.name.value.trim();
+      cart = {}; saveCart(); renderAll();
+      $("#formPanel").innerHTML = `<div class="success"><div>💌</div><h3>Спасибо, ${name.replace(/[<>&"]/g, "")}!</h3><p>Заказ принят. Мы позвоним в течение часа, чтобы всё уточнить.</p><br><a href="#catalog" class="btn btn--ghost">Вернуться в каталог</a></div>`;
+    });
+
+    // ---------- Отзывы ----------
+    $("#reviewsGrid").innerHTML = REVIEWS.map((r, i) => `
+      <article class="review">
+        <div class="review__stars">${"★".repeat(r.stars)}${"☆".repeat(5 - r.stars)}</div>
+        <p>${r.text}</p>
+        <div class="review__author">
+          <div class="review__avatar" style="background:${BG[i % BG.length]}">${r.emoji}</div>
+          <div><b>${r.name}</b><small>${r.city}</small></div>
+        </div>
+      </article>`).join("");
+
+    // ---------- Мобильное меню ----------
+    $("#burger").onclick = () => $("#nav").classList.toggle("is-open");
+    $("#nav").addEventListener("click", (e) => { if (e.target.tagName === "A") $("#nav").classList.remove("is-open"); });
+
+    // ---------- Тост ----------
+    let tt;
+    function toast(msg) {
+      const t = $("#toast"); t.textContent = msg; t.classList.add("is-show");
+      clearTimeout(tt); tt = setTimeout(() => t.classList.remove("is-show"), 2000);
+    }
+
+    function renderAll() { renderCatalog(); renderSummary(); }
+    renderFilters(); renderAll();
+  </script>
+</body>
+</html>
